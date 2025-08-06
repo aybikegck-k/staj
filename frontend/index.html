@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkie - Bağlantılarınıza Yeni Bir Soluk</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-wrapper">
+        <header class="header-section">
+            <div class="brand-logo"><i class="fas fa-cat"></i> Linkie</div>
+            <h1>Bağlantılarınıza Yeni Bir Soluk Getirin.</h1>
+            <p class="tagline">Uzun, karmaşık URL'lerden sıkıldınız mı? Linkie ile linklerinizi kısaltın, yönetin ve takip edin!</p>
+        </header>
+
+        <div id="globalMessage" class="message-box hidden"></div>
+
+        <div class="content-area">
+            <div class="left-column">
+                <div id="shortenUrlSection" class="form-section featured-section">
+                    <h2>Hemen Bir Link Kısalt!</h2>
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            id="longUrlInput"
+                            placeholder="Kısaltmak istediğin uzun linki yapıştır (örn: https://ornek.com/cokuzunbirlink.com/)"
+                        />
+                        <button id="shortenBtn">Linkie'le!</button>
+                    </div>
+
+                    <div id="resultBox" class="result hidden">
+                        Kısaltılmış Link: <a id="shortenedLink" href="#" target="_blank"></a>
+                        <button id="copyButton" style="margin-left: 10px;">Kopyala</button>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2>Nasıl Çalışır?</h2>
+                    <div class="steps">
+                        <div class="step-item">
+                            <i class="fas fa-link"></i>
+                            <h3>Yapıştır</h3>
+                            <p>Uzun URL'nizi girin.</p>
+                        </div>
+                        <div class="step-item">
+                            <i class="fas fa-compress-alt"></i>
+                            <h3>Kısalt</h3>
+                            <p>Saniyeler içinde kısaltın.</p>
+                        </div>
+                        <div class="step-item">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Takip Et</h3>
+                            <p>Tıklamaları takip edin.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="urls-section">
+                    <h2>Kısaltılmış Linklerim</h2>
+                    <button id="listUrlsBtn">Linklerimi Göster</button>
+                    <div id="urlsList" class="urls-list"></div>
+                    <div id="noUrlsMessage" class="message hidden">Henüz kısaltılmış URL'niz yok.</div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div id="authSection" class="auth-section">
+                    <h2 id="authTitle">Hesabım</h2>
+                    <p class="auth-intro-text">
+                        Linklerinizi kaydetmek, özel kısa linkler oluşturmak ve tıklamaları takip etmek için giriş yapın veya kayıt olun.
+                    </p>
+                    
+                    <div id="authButtons" class="auth-buttons">
+                        <button id="showRegisterBtn">Kayıt Ol</button>
+                        <button id="showLoginBtn">Giriş Yap</button>
+                    </div>
+
+                    <div id="registerForm" class="auth-form hidden">
+                        <h3>Yeni Hesap Oluştur</h3>
+                        <input type="text" id="regUsername" placeholder="Kullanıcı Adı" />
+                        <input type="email" id="regEmail" placeholder="E-posta" />
+                        <input type="password" id="regPassword" placeholder="Şifre" />
+                        <button id="registerBtn">Kayıt Ol</button>
+                    </div>
+
+                    <div id="loginForm" class="auth-form hidden">
+                        <h3>Hesabıma Giriş Yap</h3>
+                        <input type="email" id="loginEmail" placeholder="E-posta" />
+                        <input type="password" id="loginPassword" placeholder="Şifre" />
+                        <button id="loginBtn">Giriş Yap</button>
+                    </div>
+
+                    <div id="loggedInUserSection" class="user-info-section hidden">
+                        <p>👋 Hoş geldin, <strong id="userDisplay"></strong>!</p>
+                        <button id="logoutButton">Çıkış Yap</button>
+                    </div>
+                </div>
+
+                <div class="features-highlight">
+                    <h3>Neden Linkie Kullanmalısın?</h3>
+                    <ul>
+                        <li><i class="fas fa-magic"></i> Linklerinizi Anında Kısaltın</li>
+                        <li><i class="fas fa-chart-pie"></i> Detaylı Tıklama İstatistikleri</li>
+                        <li><i class="fas fa-lock"></i> Özel URL'ler Oluşturun</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>
+            &copy; 2025 Linkie. Tüm Hakları Saklıdır. | <a href="#">Gizlilik Politikası</a> | <a href="#">Kullanım Koşulları</a>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
