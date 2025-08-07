@@ -235,7 +235,7 @@ a:hover {
     padding: 0;
     margin: 0;
     font-size: 0.95em;
-    color: #6A1B9A;
+    color: #7B1FA2;
 }
 
 .features-highlight ul li {
@@ -294,7 +294,7 @@ button {
 }
 
 button:hover {
-    background-color: #8E24AA;
+    background-color: #7B1FA2;
     transform: translateY(-2px);
 }
 
@@ -311,7 +311,7 @@ button:hover {
 }
 
 #shortenBtn:hover {
-    background-color: #AD1457;
+    background-color: #7B1FA2;
     transform: translateY(-4px);
     box-shadow: 0 8px 20px rgba(173, 20, 87, 0.5);
 }
@@ -337,13 +337,13 @@ button:hover {
 }
 
 .auth-buttons button:hover {
-    background-color: #E91E63;
+    background-color: #7B1FA2;
     transform: translateY(-1px);
 }
 
 
 /* Sonuç ve Mesaj Kutuları */
-.result, .message {
+.result, .message-box {
     margin-top: 20px;
     padding: 15px;
     border-radius: 10px;
@@ -359,13 +359,13 @@ button:hover {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Daha hafif gölge */
 }
 
-.message.success {
+.message-box.success {
     background-color: #E8F5E9;
     color: #2E7D32;
     border: 1px solid #A5D6A7;
 }
 
-.message.error {
+.message-box.error {
     background-color: #FFEBEE;
     color: #C62828;
     border: 1px solid #EF9A9A;
@@ -521,7 +521,7 @@ button:hover {
 
 /* Çıkış Yap butonu stili */
 #loggedInUserSection #logoutButton {
-    background-color: #D32F2F; /* Kırmızımsı ton */
+    background-color: #AD1457; /* Kırmızımsı ton */
     color: white;
     padding: 10px 22px;
     font-size: 0.95em;
@@ -532,6 +532,6 @@ button:hover {
 }
 
 #loggedInUserSection #logoutButton:hover {
-    background-color: #C62828;
+    background-color: #7B1FA2;
     transform: translateY(-1px);
 }

@@ -1,7 +1,9 @@
 // src/index.ts
 // Bu dosya, Node.js HTTP sunucusunu kurar, veritabanı bağlantısını test eder ve gelen istekleri
 // ilgili rota yöneticilerine (router) yönlendirir. Uygulamanın ana giriş noktasıdır.
-const cors = require('cors');
+
+
+
 import 'dotenv/config'; // .env dosyasındaki ortam değişkenlerini yükler (ESM uyumlu)
 import http, { IncomingMessage, ServerResponse } from 'http'; // http modülünü ve tip tanımlarını içeri aktar
 import url from 'url'; // url modülünü içeri aktar

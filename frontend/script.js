@@ -36,56 +36,54 @@ document.addEventListener('DOMContentLoaded', () => {
     const BASE_URL = 'http://localhost:3000/api';
 
     // --- Yardımcı Fonksiyonlar ---
-    function showMessage(text, type) {
-        if (globalMessage) {
-            globalMessage.textContent = text;
-            globalMessage.className = `message-box ${type}`;
-            globalMessage.classList.remove('hidden');
-            setTimeout(() => {
-                globalMessage.classList.add('hidden');
-                globalMessage.textContent = '';
-            }, 5000);
+    function showElement(element) {
+        if (element) {
+            element.classList.remove('hidden');
         }
     }
 
     function hideElement(element) {
         if (element) {
-            element.style.display = 'none';
             element.classList.add('hidden');
         }
     }
 
-    function showElement(element, displayType = 'block') {
-        if (element) {
-            element.classList.remove('hidden');
-            element.style.removeProperty('display'); 
-            element.style.display = displayType;
+    function showMessage(text, type = 'success') {
+        if (globalMessage) {
+            globalMessage.classList.remove('message-box', 'error', 'success');
+            globalMessage.classList.add('message-box', type);
+            
+            globalMessage.textContent = text;
+            showElement(globalMessage);
+    
+            setTimeout(() => {
+                hideElement(globalMessage);
+                globalMessage.textContent = '';
+            }, 5000);
         }
     }
 
-    function updateUI(user = null) {
-        hideElement(globalMessage);
-        hideElement(resultBox);
-        showElement(shortenUrlSection);
+ function updateUI(user = null) {
+    hideElement(globalMessage);
+    hideElement(resultBox);
+    showElement(shortenUrlSection);
 
-        if (user && user.username) {
-            hideElement(authSection); // Hesabım bölümünü gizle
-            showElement(loggedInUserSection, 'flex'); // Kullanıcı bölümünü göster
-            showElement(logoutButton, 'inline-block'); // Çıkış yap butonunu göster
-            userDisplay.textContent = user.username;
-            fetchUserUrls();
-        } else {
-            showElement(authSection); // Hesabım bölümünü göster
-            showElement(authButtons, 'flex'); // Giriş/Kayıt butonlarını göster
-            hideElement(loggedInUserSection); // Kullanıcı bölümünü gizle
-            hideElement(logoutButton); // Çıkış yap butonunu gizle
-            authTitle.textContent = 'Hesabım';
-            hideElement(loginForm);
-            hideElement(registerForm);
-            urlsListDiv.innerHTML = '';
-            hideElement(noUrlsMessage);
-        }
+    if (user && user.username) {
+        hideElement(authSection);
+        showElement(loggedInUserSection);
+        userDisplay.textContent = user.username;
+        fetchUserUrls();
+    } else {
+        showElement(authSection);
+        showElement(authButtons);
+        hideElement(loggedInUserSection);
+        authTitle.textContent = 'Hesabım';
+        hideElement(loginForm);
+        hideElement(registerForm);
+        urlsListDiv.innerHTML = '';
+        hideElement(noUrlsMessage);
     }
+}
 
     function checkLoginStatus() {
         const token = localStorage.getItem('token');
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Başlangıç UI Ayarları ---
     if (authSection) showElement(authSection);
-    if (authButtons) showElement(authButtons, 'flex');
+    if (authButtons) showElement(authButtons);
     if (loggedInUserSection) hideElement(loggedInUserSection);
     if (loginForm) hideElement(loginForm);
     if (registerForm) hideElement(registerForm);
@@ -120,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement(registerForm);
         showElement(loginForm);
         authTitle.textContent = 'Hesabıma Giriş Yap';
-        hideElement(authButtons); // Bu satırı ekledim
+        hideElement(authButtons);
         hideElement(globalMessage);
     });
 
@@ -129,9 +127,26 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement(loginForm);
         showElement(registerForm);
         authTitle.textContent = 'Yeni Hesap Oluştur';
-        hideElement(authButtons); // Bu satırı ekledim
+        hideElement(authButtons);
         hideElement(globalMessage);
     });
+
+    // <<< YENİ EKLENEN 'GERİ' BUTONU KODU >>>
+    document.querySelectorAll('.back-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const parentForm = e.target.closest('.auth-form');
+            
+            if (parentForm) {
+                hideElement(parentForm);
+                showElement(authButtons);
+                authTitle.textContent = 'Hesabım';
+                hideElement(globalMessage);
+            }
+        });
+    });
+    // <<< YENİ EKLENEN 'GERİ' BUTONU KODU SONU >>>
 
     registerBtn.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -161,53 +176,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-   // loginBtn.addEventListener('click', ...
-loginBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const email = loginEmail.value;
-    const password = loginPassword.value;
+    loginBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const email = loginEmail.value;
+        const password = loginPassword.value;
 
-    try {
-        const response = await fetch(`${BASE_URL}/login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password }),
-        });
-        const data = await response.json();
+        try {
+            const response = await fetch(`${BASE_URL}/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password }),
+            });
+            const data = await response.json();
 
-        // 🟢 Başarılı giriş durumunu kontrol edelim
-        if (response.ok) {
-            console.log('✅ Giriş başarılı. Backendden gelen data:', data);
-
-            showMessage('✅ Giriş başarılı!', 'success');
-            localStorage.setItem('token', data.token);
-            loginEmail.value = '';
-            loginPassword.value = '';
-            updateUI(data.user);
-            if (urlsSection) urlsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        } else {
-            // 🔴 Hatalı giriş durumunu kontrol edelim
-            console.log('❌ Giriş başarısız. Backendden gelen hata:', data);
-
-            showMessage(`❌ ${data.error || 'Giriş sırasında hata oluştu.'}`, 'error');
+            if (response.ok) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('username', data.user.username); // Kullanıcı adını da kaydet
+                showMessage('✅ Giriş başarılı!', 'success');
+                loginEmail.value = '';
+                loginPassword.value = '';
+                updateUI(data.user);
+                if (urlsSection) urlsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                showMessage(`❌ ${data.error || 'Giriş sırasında hata oluştu.'}`, 'error');
+            }
+        } catch {
+            showMessage('❌ Sunucuya bağlanılamadı.', 'error');
         }
-    } catch {
-        console.log('❌ Sunucuya bağlanılamadı.');
-        showMessage('❌ Sunucuya bağlanılamadı.', 'error');
-    }
-});
+    });
 
-   logoutButton.addEventListener('click', () => {
-    // Konsola bir mesaj yazdırarak bu fonksiyonun çalışıp çalışmadığını kontrol edelim
-    console.log('Çıkış yap butonu tıklandı.');
-
-    localStorage.removeItem('token');
-    updateUI(null);
-    showMessage('Başarıyla çıkış yapıldı.', 'success');
-});
+    logoutButton.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        updateUI(null);
+        showMessage('Başarıyla çıkış yapıldı.', 'success');
+    });
 
     // --- URL Kısaltma ---
-    shortenBtn.addEventListener('click', async (e) => {
+ shortenBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const longUrl = longUrlInput.value.trim();
         hideElement(resultBox);
@@ -236,8 +242,10 @@ loginBtn.addEventListener('click', async (e) => {
             const data = await response.json();
 
             if (response.ok) {
-                shortenedLink.href = data.shortUrl;
-                shortenedLink.textContent = data.shortUrl;
+                // Değişiklik burada: shortCode yerine shortUrl kullanıldı
+                const shortUrl = data.shortUrl;
+                shortenedLink.href = shortUrl;
+                shortenedLink.textContent = shortUrl;
                 showElement(resultBox);
                 showMessage(data.message || 'Linkiniz başarıyla kısaltıldı!', 'success');
                 longUrlInput.value = '';

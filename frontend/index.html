@@ -73,37 +73,38 @@
 
             <div class="right-column">
                 <div id="authSection" class="auth-section">
-                    <h2 id="authTitle">Hesabım</h2>
-                    <p class="auth-intro-text">
-                        Linklerinizi kaydetmek, özel kısa linkler oluşturmak ve tıklamaları takip etmek için giriş yapın veya kayıt olun.
-                    </p>
-                    
-                    <div id="authButtons" class="auth-buttons">
-                        <button id="showRegisterBtn">Kayıt Ol</button>
-                        <button id="showLoginBtn">Giriş Yap</button>
-                    </div>
+    <h2 id="authTitle">Hesabım</h2>
+    <p class="auth-intro-text">
+        Linklerinizi kaydetmek, özel kısa linkler oluşturmak ve tıklamaları takip etmek için giriş yapın veya kayıt olun.
+    </p>
+    
+    <div id="authButtons" class="auth-buttons">
+        <button id="showRegisterBtn">Kayıt Ol</button>
+        <button id="showLoginBtn">Giriş Yap</button>
+    </div>
 
-                    <div id="registerForm" class="auth-form hidden">
-                        <h3>Yeni Hesap Oluştur</h3>
-                        <input type="text" id="regUsername" placeholder="Kullanıcı Adı" />
-                        <input type="email" id="regEmail" placeholder="E-posta" />
-                        <input type="password" id="regPassword" placeholder="Şifre" />
-                        <button id="registerBtn">Kayıt Ol</button>
-                    </div>
+    <div id="registerForm" class="auth-form hidden">
+    <h3>Yeni Hesap Oluştur</h3>
+    <input type="text" id="regUsername" placeholder="Kullanıcı Adı" />
+    <input type="email" id="regEmail" placeholder="E-posta" />
+    <input type="password" id="regPassword" placeholder="Şifre" />
+    <button id="registerBtn">Kayıt Ol</button>
+    <button class="back-btn">Geri</button>
+</div>
 
-                    <div id="loginForm" class="auth-form hidden">
-                        <h3>Hesabıma Giriş Yap</h3>
-                        <input type="email" id="loginEmail" placeholder="E-posta" />
-                        <input type="password" id="loginPassword" placeholder="Şifre" />
-                        <button id="loginBtn">Giriş Yap</button>
-                    </div>
+<div id="loginForm" class="auth-form hidden">
+    <h3>Hesabıma Giriş Yap</h3>
+    <input type="email" id="loginEmail" placeholder="E-posta" />
+    <input type="password" id="loginPassword" placeholder="Şifre" />
+    <button id="loginBtn">Giriş Yap</button>
+    <button class="back-btn">Geri</button>
+</div>
+</div>
 
-                    <div id="loggedInUserSection" class="user-info-section hidden">
-                        <p>👋 Hoş geldin, <strong id="userDisplay"></strong>!</p>
-                        <button id="logoutButton">Çıkış Yap</button>
-                    </div>
-                </div>
-
+<div id="loggedInUserSection" class="user-info-section hidden">
+    <p>👋 Hoş geldin, <strong id="userDisplay"></strong>!</p>
+    <button id="logoutButton">Çıkış Yap</button>
+</div>
                 <div class="features-highlight">
                     <h3>Neden Linkie Kullanmalısın?</h3>
                     <ul>
