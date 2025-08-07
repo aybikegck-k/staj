@@ -148,6 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // <<< YENİ EKLENEN 'GERİ' BUTONU KODU SONU >>>
 
+ loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        loginBtn.click();
+    });
+
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        registerBtn.click();
+    });
     registerBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const username = regUsername.value;
