@@ -186,13 +186,13 @@ export const loginUser = async (req: AuthenticatedRequest, res: ServerResponse, 
         );
 
         // Başarılı giriş cevabı döndür
-        res.writeHead(200, { 'Content-Type': 'application/json' }); // 200 OK HTTP durumu
-        res.end(JSON.stringify({
-            message: 'Giriş başarılı.',
-            token: token, // Oluşturulan JWT'yi kullanıcıya gönderiyoruz
-            user: { id: user.id, username: user.username, email: user.email } // Kullanıcı bilgilerini de gönderiyoruz.
-        }));
-
+ res.writeHead(200, { 'Content-Type': 'application/json' }); // 200 OK HTTP durumu
+ res.end(JSON.stringify({
+message: 'Giriş başarılı.',
+ token: token, // Oluşturulan JWT'yi kullanıcıya gönderiyoruz
+ // Kullanıcı bilgilerini de yanıtın içine ekliyoruz.
+ user: { id: user.id, username: user.username, email: user.email }
+ }));
     } catch (error: unknown) { // Hata yakalama bloğu
         console.error('Giriş işlemi sırasında hata:', (error as Error).message); // Hatanın detayını konsola yazdır
         // Eğer yanıt başlıkları henüz gönderilmediyse, hata yanıtı gönderiyoruz.

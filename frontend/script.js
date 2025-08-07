@@ -161,39 +161,50 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    loginBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const email = loginEmail.value;
-        const password = loginPassword.value;
+   // loginBtn.addEventListener('click', ...
+loginBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const email = loginEmail.value;
+    const password = loginPassword.value;
 
-        try {
-            const response = await fetch(`${BASE_URL}/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
+    try {
+        const response = await fetch(`${BASE_URL}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password }),
+        });
+        const data = await response.json();
 
-            if (response.ok) {
-                showMessage('✅ Giriş başarılı!', 'success');
-                localStorage.setItem('token', data.token);
-                loginEmail.value = '';
-                loginPassword.value = '';
-                updateUI(data.user); // Bu satır, giriş başarılı olduğunda arayüzü günceller
-                if (urlsSection) urlsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                showMessage(`❌ ${data.error || 'Giriş sırasında hata oluştu.'}`, 'error');
-            }
-        } catch {
-            showMessage('❌ Sunucuya bağlanılamadı.', 'error');
+        // 🟢 Başarılı giriş durumunu kontrol edelim
+        if (response.ok) {
+            console.log('✅ Giriş başarılı. Backendden gelen data:', data);
+
+            showMessage('✅ Giriş başarılı!', 'success');
+            localStorage.setItem('token', data.token);
+            loginEmail.value = '';
+            loginPassword.value = '';
+            updateUI(data.user);
+            if (urlsSection) urlsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            // 🔴 Hatalı giriş durumunu kontrol edelim
+            console.log('❌ Giriş başarısız. Backendden gelen hata:', data);
+
+            showMessage(`❌ ${data.error || 'Giriş sırasında hata oluştu.'}`, 'error');
         }
-    });
+    } catch {
+        console.log('❌ Sunucuya bağlanılamadı.');
+        showMessage('❌ Sunucuya bağlanılamadı.', 'error');
+    }
+});
 
-    logoutButton.addEventListener('click', () => {
-        localStorage.removeItem('token');
-        updateUI(null); // Bu satır, çıkış yapıldığında arayüzü varsayılan haline döndürür
-        showMessage('Başarıyla çıkış yapıldı.', 'success');
-    });
+   logoutButton.addEventListener('click', () => {
+    // Konsola bir mesaj yazdırarak bu fonksiyonun çalışıp çalışmadığını kontrol edelim
+    console.log('Çıkış yap butonu tıklandı.');
+
+    localStorage.removeItem('token');
+    updateUI(null);
+    showMessage('Başarıyla çıkış yapıldı.', 'success');
+});
 
     // --- URL Kısaltma ---
     shortenBtn.addEventListener('click', async (e) => {
