@@ -12,12 +12,17 @@ Projeyi çalıştırmak için aşağıdaki yazılımların sisteminizde kurulu o
 - [Git](https://git-scm.com/)
 - Paket yöneticisi: `npm` 
 
-🛠️ Ortam Değişkenleri (.env)
-Projenin çalışabilmesi için kök dizine bir .env dosyası oluşturun. 
+### 🛠️ Ortam Değişkenleri (.env)
+
+Projenin çalışabilmesi için, kök dizinde bir `.env` dosyası oluşturun. Bunun için aşağıdaki komutu kullanabilirsiniz:
+
+```bash
 cp .env.example .env
 
 Örnek dosya için .env.example'ı inceleyebilirsiniz:
-📄Örnek .env.example Dosyası
+### 📄 Örnek .env.example Dosyası
+
+```ini
 # PostgreSQL Veritabanı Bağlantı Bilgileri
 DB_USER=postgres
 DB_HOST=localhost
@@ -37,22 +42,29 @@ docker-compose up -d
 
 Bu komut PostgreSQL veritabanını başlatır. Varsayılan ayarlar:
 
-Port: 5432
-Kullanıcı: postgres
-Şifre: 260922
-Veritabanı: url_shortener_ts_db
+Bu komut PostgreSQL veritabanını arka planda başlatır. Varsayılan veritabanı ayarları şunlardır:
+
+* **Port:** 5432
+* **Kullanıcı:** postgres
+* **Şifre:** 260922
+* **Veritabanı:** url_shortener_ts_db
 
 2.Backend'i başlatın
 
-cd backend
-npm install
-npm run dev
+Backend sunucusunu başlatmak için:
+
+* `cd backend`
+* `npm install`
+* `npm run dev`
+
 Backend TypeScript ile yazılmıştır. tsconfig.json dosyası derleme ayarlarını içerir. Veritabanı bağlantısı .env dosyasındaki bilgilerle yapılır.
 
 3.Frontend'i çalıştırın
 
-cd frontend
-index.html dosyasını tarayıcıda açın
+Frontend'i çalıştırmak için:
+
+* `cd frontend`
+* `index.html` dosyasını tarayıcınızda açın.
 
 
 Veritabanı Şeması (PostgreSQL)
@@ -88,11 +100,10 @@ Veritabanı Şeması (PostgreSQL)
 | `GET` | `/urls` | Kullanıcının URL listesini döner |
 | `GET` | `/:shortCode` | Kısaltılmış URL'yi yönlendirir |
 
-👩‍💻 Geliştirici Notları
-Veritabanı bağlantısı pg modülü ile sağlanır.
-Şifreler bcrypt ile hashlenir.
-JWT ile oturum yönetimi yapılır.
-IP adresi takibi anonim kullanıcılar için yapılır.
-Tüm URL'ler short_code üzerinden yönlendirilir.
+### 👩‍💻 Geliştirici Notları
 
-
+* Veritabanı bağlantısı `pg` modülü ile sağlanır.
+* Şifreler `bcrypt` ile hashlenir.
+* JWT ile oturum yönetimi yapılır.
+* IP adresi takibi anonim kullanıcılar için yapılır.
+* Tüm URL'ler `short_code` üzerinden yönlendirilir.
