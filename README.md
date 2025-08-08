@@ -19,10 +19,10 @@ Projenin çalışabilmesi için, kök dizinde bir `.env` dosyası oluşturun. Bu
 ```bash
 cp .env.example .env
 
-Örnek dosya için .env.example'ı inceleyebilirsiniz:
-### 📄 Örnek .env.example Dosyası
+Örnek dosya için .env.example'ı inceleyebilirsiniz
 
-```ini
+📄 Örnek .env.example Dosyası
+
 # PostgreSQL Veritabanı Bağlantı Bilgileri
 DB_USER=postgres
 DB_HOST=localhost
@@ -70,6 +70,7 @@ Frontend'i çalıştırmak için:
 Veritabanı Şeması (PostgreSQL)
 
 ### 📁 Tablo: users
+
 | Alan | Tip | Açıklama |
 | :--- | :--- | :--- |
 | id | SERIAL | Otomatik artan benzersiz ID |
@@ -92,6 +93,7 @@ Veritabanı Şeması (PostgreSQL)
 
 
 ### 🔐 API Uç Noktaları
+
 | Metot | Yol | Açıklama |
 | :--- | :--- | :--- |
 | `POST` | `/register` | Yeni kullanıcı oluşturur |
