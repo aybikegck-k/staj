@@ -58,32 +58,37 @@ index.html dosyasını tarayıcıda açın
 Veritabanı Şeması (PostgreSQL)
 
 📁 Tablo: users
-Alan	       Tip              Açıklama
-id	           SERIAL	        Otomatik artan benzersiz ID
-username	   VARCHAR(50)	    Benzersiz kullanıcı adı
-email	       VARCHAR(100)	    Benzersiz e-posta adresi
-password_hash  VARCHAR(255)	    Hashlenmiş şifre
-created_at	   TIMESTAMP	    Kayıt tarihi
+
+| Alan          | Tip          | Açıklama                    |  |
+| ------------- | ------------ | --------------------------- |  |
+| id            | SERIAL       | Otomatik artan benzersiz ID |  |
+| username      | VARCHAR(50)  | Benzersiz kullanıcı adı     |  |
+| email         | VARCHAR(100) | Benzersiz e-posta adresi    |  |
+| password_hash | VARCHAR(255) | Hashlenmiş şifre            |  |
+| created_at    | TIMESTAMP    | Kullanıcı kayıt tarihi      |  |
 
 
 📁 Tablo: urls
-Alan	       Tip	            Açıklama
-id	           SERIAL           Otomatik artan benzersiz ID
-original_url   TEXT	            Uzun URL
-short_code	   VARCHAR(10)	    Benzersiz kısa kod
-user_id	       INTEGER	        Users(id) tablosuna referans
-ip_address	   VARCHAR(45)	    Anonim kullanıcı IP adresi
-click_count	   INTEGER        	Tıklama sayısı
-created_at	   TIMESTAMP	    Oluşturulma tarihi
 
+| Alan         | Tip         | Açıklama                                |  |
+| ------------ | ----------- | --------------------------------------- |  |
+| id           | SERIAL      | Otomatik artan benzersiz ID             |  |
+| original_url | TEXT        | Kısaltılacak uzun URL                   |  |
+| short_code   | VARCHAR(10) | Benzersiz kısa kod                      |  |
+| user_id      | INTEGER     | users tablosuna referans (isteğe bağlı) |  |
+| ip_address   | VARCHAR(45) | Anonim kullanıcı için IP adresi         |  |
+| click_count  | INTEGER     | Bağlantıya tıklanma sayısı              |  |
+| created_at   | TIMESTAMP   | URL'nin oluşturulma tarihi              |  |
 
 🔐 API Uç Noktaları
-Metot	       Yol	            Açıklama
-POST	       /register	    Yeni kullanıcı oluşturur
-POST	       /login	        Giriş yapar, JWT token döner
-POST	       /shorten	        Uzun URL'yi kısaltır
-GET	           /urls            Kullanıcının URL listesini döner
-GET	           /:shortCode	    Kısaltılmış URL'yi yönlendirir   
+
+| Metot | Yol         | Açıklama                                          |  |  |
+| ----- | ----------- | ------------------------------------------------- |  |  |
+| POST  | /register   | Yeni bir kullanıcı oluşturur.                     |  |  |
+| POST  | /login      | Kullanıcı girişi yapar ve JWT token'ı döner.      |  |  |
+| POST  | /shorten    | Verilen uzun URL'yi kısaltır.                     |  |  |
+| GET   | /urls       | Yetkili kullanıcının URL listesini döner.         |  |  |
+| GET   | /:shortCode | Kısaltılmış URL'yi orijinal adresine yönlendirir. |  |  |
 
 
 👩‍💻 Geliştirici Notları
@@ -92,3 +97,5 @@ Veritabanı bağlantısı pg modülü ile sağlanır.
 JWT ile oturum yönetimi yapılır.
 IP adresi takibi anonim kullanıcılar için yapılır.
 Tüm URL'ler short_code üzerinden yönlendirilir.
+
+

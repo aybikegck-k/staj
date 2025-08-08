@@ -63,27 +63,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
- function updateUI(user = null) {
-    hideElement(globalMessage);
-    hideElement(resultBox);
-    showElement(shortenUrlSection);
+    function updateUI(user = null) {
+        hideElement(globalMessage);
+        hideElement(resultBox);
+        showElement(shortenUrlSection);
 
-    if (user && user.username) {
-        hideElement(authSection);
-        showElement(loggedInUserSection);
-        userDisplay.textContent = user.username;
-        fetchUserUrls();
-    } else {
-        showElement(authSection);
-        showElement(authButtons);
-        hideElement(loggedInUserSection);
-        authTitle.textContent = 'Hesabım';
-        hideElement(loginForm);
-        hideElement(registerForm);
-        urlsListDiv.innerHTML = '';
-        hideElement(noUrlsMessage);
+        if (user && user.username) {
+            hideElement(authSection);
+            showElement(loggedInUserSection);
+            userDisplay.textContent = user.username;
+            fetchUserUrls();
+        } else {
+            showElement(authSection);
+            showElement(authButtons);
+            hideElement(loggedInUserSection);
+            authTitle.textContent = 'Hesabım';
+            hideElement(loginForm);
+            hideElement(registerForm);
+            urlsListDiv.innerHTML = '';
+            hideElement(noUrlsMessage);
+        }
     }
-}
 
     function checkLoginStatus() {
         const token = localStorage.getItem('token');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
         hideElement(globalMessage);
     });
 
-    // <<< YENİ EKLENEN 'GERİ' BUTONU KODU >>>
+    // <<< "GERİ" BUTONU KODU >>>
     document.querySelectorAll('.back-btn').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -146,45 +146,76 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    // <<< YENİ EKLENEN 'GERİ' BUTONU KODU SONU >>>
+    // <<< "GERİ" BUTONU KODU SONU >>>
 
- loginForm.addEventListener('submit', (e) => {
+    // <<< YENİ EKLENEN "ENTER" TUŞU KODU >>>
+loginForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
         e.preventDefault();
         loginBtn.click();
-    });
+    }
+});
 
-    registerForm.addEventListener('submit', (e) => {
+// Kayıt Formu için Enter tuşu dinleyicisi
+registerForm.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
         e.preventDefault();
         registerBtn.click();
-    });
-    registerBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const username = regUsername.value;
-        const email = regEmail.value;
-        const password = regPassword.value;
+    }
+});
+// <<< "ENTER" TUŞU KODU SONU >>>
 
-        try {
-            const response = await fetch(`${BASE_URL}/register`, {
+   registerBtn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const username = regUsername.value;
+    const email = regEmail.value;
+    const password = regPassword.value;
+
+    try {
+        // İlk olarak kayıt isteği gönderilir
+        const registerResponse = await fetch(`${BASE_URL}/register`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password }),
+        });
+        const registerData = await registerResponse.json();
+
+        if (registerResponse.ok) {
+            showMessage('✅ Kayıt başarılı! Hesabınıza giriş yapılıyor...', 'success');
+            
+            // Kayıt başarılıysa, otomatik olarak giriş isteği gönderilir
+            const loginResponse = await fetch(`${BASE_URL}/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, password }),
+                body: JSON.stringify({ email, password }),
             });
-            const data = await response.json();
+            const loginData = await loginResponse.json();
 
-            if (response.ok) {
-                showMessage('✅ Kayıt başarılı! Şimdi giriş yapabilirsiniz.', 'success');
-                regUsername.value = '';
-                regEmail.value = '';
-                regPassword.value = '';
-                showLoginBtn.click();
+            if (loginResponse.ok) {
+                // Giriş başarılı olursa, token saklanır ve UI güncellenir
+                localStorage.setItem('token', loginData.token);
+                updateUI(loginData.user);
+                showMessage('✅ Giriş başarılı!', 'success');
+                if (urlsSection) urlsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                showMessage(`❌ ${data.error || 'Kayıt sırasında hata oluştu.'}`, 'error');
+                // Otomatik giriş başarısız olursa
+                showMessage(`❌ Otomatik giriş sırasında hata oluştu: ${loginData.error || 'Bilinmeyen hata'}`, 'error');
             }
-        } catch {
-            showMessage('❌ Sunucuya bağlanılamadı.', 'error');
-        }
-    });
 
+            // Form kutucuklarını temizle
+            regUsername.value = '';
+            regEmail.value = '';
+            regPassword.value = '';
+
+        } else {
+            // Kayıt başarısız olursa
+            showMessage(`❌ ${registerData.error || 'Kayıt sırasında hata oluştu.'}`, 'error');
+        }
+    } catch (error) {
+        // Ağ bağlantı hatası gibi durumlarda
+        showMessage('❌ Sunucuya bağlanılamadı.', 'error');
+    }
+});
     loginBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const email = loginEmail.value;
@@ -200,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('username', data.user.username); // Kullanıcı adını da kaydet
+                localStorage.setItem('username', data.user.username);
                 showMessage('✅ Giriş başarılı!', 'success');
                 loginEmail.value = '';
                 loginPassword.value = '';
@@ -222,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- URL Kısaltma ---
- shortenBtn.addEventListener('click', async (e) => {
+    shortenBtn.addEventListener('click', async (e) => {
         e.preventDefault();
         const longUrl = longUrlInput.value.trim();
         hideElement(resultBox);
@@ -251,8 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (response.ok) {
-                // Değişiklik burada: shortCode yerine shortUrl kullanıldı
-                const shortUrl = data.shortUrl;
+                const shortUrl = data.shortUrl; // Backend'den gelen shortUrl'i kullanıyoruz.
                 shortenedLink.href = shortUrl;
                 shortenedLink.textContent = shortUrl;
                 showElement(resultBox);
